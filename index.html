@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.2.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.3.0">
     
     
       
@@ -55,7 +55,7 @@
       
     
     
-      <script src="assets/javascripts/modernizr.8c900955.js"></script>
+      <script src="assets/javascripts/modernizr.962652e9.js"></script>
     
     
       
@@ -68,6 +68,9 @@
     
     
       <link rel="stylesheet" href="extra-83f68d2c59.css">
+    
+    
+      
     
     
   </head>
@@ -349,6 +352,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#beautiful-soup-differences" title="Beautiful Soup Differences" class="md-nav__link">
+    Beautiful Soup Differences
+  </a>
+  
+</li>
+      
       
       
       
@@ -502,6 +512,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#beautiful-soup-differences" title="Beautiful Soup Differences" class="md-nav__link">
+    Beautiful Soup Differences
+  </a>
+  
+</li>
+      
       
       
       
@@ -575,19 +592,33 @@ python setup.py install
 <span class="gp">&gt;&gt;&gt; </span><span class="n">soup</span> <span class="o">=</span> <span class="n">bs4</span><span class="o">.</span><span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="s1">&#39;html5lib&#39;</span><span class="p">)</span>
 </pre></div>
 
-<p>Then you can begin to use Soup Sieve to select a single tag:</p>
+<p>For most people, using the Beautiful Soup 4.7.0+ API may be more than sufficient. Beautiful Soup offers two methods that employ
+Soup Sieve: <code>select</code> and <code>select_one</code>. Beautiful Soup's select API is identical to Soup Sieve's, except that you don't
+have to hand it the tag object, the calling object passes itself to Soup Sieve:</p>
+<div class="codehilite"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">soup</span> <span class="o">=</span> <span class="n">bs4</span><span class="o">.</span><span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="s1">&#39;html5lib&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">soup</span><span class="o">.</span><span class="n">select_one</span><span class="p">(</span><span class="s1">&#39;p:is(.a, .b, .c)&#39;</span><span class="p">)</span>
+<span class="go">&lt;p class=&quot;a&quot;&gt;Cat&lt;/p&gt;</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">soup</span> <span class="o">=</span> <span class="n">bs4</span><span class="o">.</span><span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="s1">&#39;html5lib&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">soup</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;p:is(.a, .b, .c)&#39;</span><span class="p">)</span>
+<span class="go">[&lt;p class=&quot;a&quot;&gt;Cat&lt;/p&gt;, &lt;p class=&quot;b&quot;&gt;Dog&lt;/p&gt;, &lt;p class=&quot;c&quot;&gt;Mouse&lt;/p&gt;]</span>
+</pre></div>
+
+<p>You can also use the Soup Sieve API directly to get access to the full range of possibilities that Soup Sieve offers.
+You can select a single tag:</p>
 <div class="codehilite"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">soupsieve</span> <span class="k">as</span> <span class="nn">sv</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sv</span><span class="o">.</span><span class="n">select_one</span><span class="p">(</span><span class="s1">&#39;p:is(.a, .b, .c)&#39;</span><span class="p">,</span> <span class="n">soup</span><span class="p">)</span>
 <span class="go">&lt;p class=&quot;a&quot;&gt;Cat&lt;/p&gt;</span>
 </pre></div>
 
-<p>To select all tags:</p>
+<p>You can select all tags:</p>
 <div class="codehilite"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">soupsieve</span> <span class="k">as</span> <span class="nn">sv</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sv</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;p:is(.a, .b, .c)&#39;</span><span class="p">,</span> <span class="n">soup</span><span class="p">)</span>
 <span class="go">[&lt;p class=&quot;a&quot;&gt;Cat&lt;/p&gt;, &lt;p class=&quot;b&quot;&gt;Dog&lt;/p&gt;, &lt;p class=&quot;c&quot;&gt;Mouse&lt;/p&gt;]</span>
 </pre></div>
 
-<p>To select closest, direct ancestor:</p>
+<p>You can select the closest ancestor:</p>
 <div class="codehilite"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">soupsieve</span> <span class="k">as</span> <span class="nn">sv</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">el</span> <span class="o">=</span> <span class="n">sv</span><span class="o">.</span><span class="n">select_one</span><span class="p">(</span><span class="s1">&#39;.c&#39;</span><span class="p">,</span> <span class="n">soup</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sv</span><span class="o">.</span><span class="n">closest</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="n">el</span><span class="p">)</span>
@@ -599,12 +630,12 @@ python setup.py install
 <span class="go">&lt;/div&gt;</span>
 </pre></div>
 
-<p>To filter:</p>
+<p>You can filter a tag's Children (or an iterable of tags):</p>
 <div class="codehilite"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sv</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s1">&#39;p:not(.b)&#39;</span><span class="p">,</span> <span class="n">soup</span><span class="o">.</span><span class="n">div</span><span class="p">)</span>
 <span class="go">[&lt;p class=&quot;a&quot;&gt;Cat&lt;/p&gt;, &lt;p class=&quot;c&quot;&gt;Mouse&lt;/p&gt;]</span>
 </pre></div>
 
-<p>To match:</p>
+<p>You can match a single tag:</p>
 <div class="codehilite"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">els</span> <span class="o">=</span> <span class="n">sv</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;p:is(.a, .b, .c)&#39;</span><span class="p">,</span> <span class="n">soup</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sv</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">els</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;p:not(.b)&#39;</span><span class="p">)</span>
 <span class="go">True</span>
@@ -612,7 +643,7 @@ python setup.py install
 <span class="go">False</span>
 </pre></div>
 
-<p>Or even just extracting comments:</p>
+<p>Or even just extract comments:</p>
 <div class="codehilite"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sv</span><span class="o">.</span><span class="n">comments</span><span class="p">(</span><span class="n">soup</span><span class="p">)</span>
 <span class="go">[&#39; These are animals &#39;]</span>
 </pre></div>
@@ -656,6 +687,52 @@ like the pattern or flags once compiled. See <a href="api/">API</a> documentatio
 <p>Compiled patterns are cached, so if for any reason you need to clear the cache, simply issue the <code>purge</code> command.</p>
 <div class="codehilite"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sv</span><span class="o">.</span><span class="n">purge</span><span class="p">()</span>
 </pre></div>
+
+<h2 id="beautiful-soup-differences">Beautiful Soup Differences<a class="headerlink" href="#beautiful-soup-differences" title="Permanent link"></a></h2>
+<p>Soup Sieve is the official CSS "select" implementation of Beautiful Soup 4.7.0+. While the inclusion of Soup Sieve fixes
+many issues and greatly expands CSS support in Beautiful Soup, it does introduce some differences which may surprise
+some who've become accustom to the old "select" implementation.</p>
+<p>Beautiful Soup's old select method had numerous limitations and quirks that do not align with the actual CSS
+specification. Most are insignificant, but there are a couple differences that people over the years had come to rely
+on. Soup Sieve, which aims to follow the CSS specification closely, does not support these differences.</p>
+<ol>
+<li>
+<p>Beautiful Soup was very relaxed when it came to attribute values in selectors: <code class="codehilite"><span class="o">[</span><span class="nt">attribute</span><span class="o">=</span><span class="nt">value</span><span class="o">]</span></code>. Beautiful
+Soup would allow almost anything for a valid unquoted value. Soup Sieve, on the other hand, follows the CSS
+specification and requires that a value be a valid identifier, or it must be quoted. If you get an error complaining
+about an invalid attribute, you may need to quote the value.</p>
+<p>For instance, if you previously used a selector like this:</p>
+<div class="codehilite"><pre><span></span><span class="n">soup</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;[div=</span><span class="si">{}</span><span class="s1">]&#39;</span><span class="p">)</span>
+</pre></div>
+
+<p>You would need to quote the value as <code>{}</code> is not a valid CSS identifier, so it must be quoted:</p>
+<div class="codehilite"><pre><span></span><span class="n">soup</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;[div=&quot;</span><span class="si">{}</span><span class="s1">&quot;]&#39;</span><span class="p">)</span>
+</pre></div>
+
+</li>
+<li>
+<p>Whether on purpose or on accident, Beautiful Soup used to allow relative selectors:</p>
+<div class="codehilite"><pre><span></span><span class="n">soup</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;&gt; div&#39;</span><span class="p">)</span>
+</pre></div>
+
+<p>The above is not a valid CSS selector according the CSS specifications. Relative selector lists have only recently
+been added to the CSS specifications, and they are only allowed in a <code class="codehilite"><span class="p">:</span><span class="nd">has</span><span class="o">()</span></code> pseudo-class:</p>
+<div class="codehilite"><pre><span></span><span class="nt">article</span><span class="p">:</span><span class="nd">has</span><span class="o">(&gt;</span> <span class="nt">div</span><span class="o">)</span>
+</pre></div>
+
+<p>But, in the level 4 CSS specifications, the <code>:scope</code> pseudo-class has been added which allows for the same feel as
+using <code class="codehilite"><span class="o">&gt;</span> <span class="nt">div</span></code>. Since Soup Sieve supports the <code>:scope</code> pseudo-class, it can be used to produce the same
+behavior as the legacy select method.</p>
+<p>So, if you used to to have selectors such as:</p>
+<div class="codehilite"><pre><span></span><span class="n">soup</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;&gt; div&#39;</span><span class="p">)</span>
+</pre></div>
+
+<p>You can simply add <code>:scope</code>, and it should work the same:</p>
+<div class="codehilite"><pre><span></span><span class="n">soup</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;:scope &gt; div&#39;</span><span class="p">)</span>
+</pre></div>
+
+</li>
+</ol>
                 
                   
                 
@@ -726,14 +803,11 @@ like the pattern or flags once compiled. See <a href="api/">API</a> documentatio
       
     </div>
     
-      <script src="assets/javascripts/application.b41f3d20.js"></script>
+      <script src="assets/javascripts/application.a353778b.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"."}})</script>
       
         <script src="extra-0b9b22dd13.js"></script>
-      
-    
-    
       
     
   </body>
