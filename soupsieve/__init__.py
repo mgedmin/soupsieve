@@ -33,9 +33,9 @@ from . import css_types as ct
 from .util import DEBUG, _QUIRKS  # noqa: F401
 
 __all__ = (
-    'DEBUG', "_QUIRKS", 'Aliases', 'SoupSieve', 'compile', 'purge',
+    'DEBUG', "_QUIRKS", 'SoupSieve', 'compile', 'purge',
     'comments', 'icomments', 'closest', 'select', 'select_one',
-    'iselect', 'match', 'filter'
+    'iselect', 'match', 'filter', 'create_aliases'
 )
 
 SoupSieve = cm.SoupSieve
@@ -120,3 +120,9 @@ def iselect(select, tag, namespaces=None, limit=0, flags=0, **kwargs):
 
     for el in compile(select, namespaces, flags, **kwargs).iselect(tag, limit):
         yield el
+
+
+def create_aliases(aliases, **kwargs):
+    """Create custom selector aliases."""
+
+    return cp.create_aliases(aliases, **kwargs)
